@@ -26,11 +26,11 @@ namespace PlutoRover.Services
 
                 if (Heading == Heading.E || Heading == Heading.W)
                 {
-                    PosY += change;
+                    PosX += change;
                 }
                 else if (Heading == Heading.N || Heading == Heading.S)
                 {
-                    PosX += change;
+                    PosY += change;
                 }
             }
             else if (char.ToUpper(direction).Equals('B'))
@@ -39,11 +39,11 @@ namespace PlutoRover.Services
 
                 if (Heading == Heading.E || Heading == Heading.W)
                 {
-                    PosY += change;
+                    PosX += change;
                 }
                 else if (Heading == Heading.N || Heading == Heading.S)
                 {
-                    PosX += change;
+                    PosY += change;
                 }
             }
         }
