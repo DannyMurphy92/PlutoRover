@@ -26,32 +26,27 @@ namespace PlutoRover.Services
 
         public void Move(char direction)
         {
-            if (char.ToUpper(direction).Equals('F'))
+            if(!char.ToUpper(direction).Equals('B') && !char.ToUpper(direction).Equals('F'))
             {
-                var change = Heading == Heading.N || Heading == Heading.E ? 1 : -1;
-
-                if (Heading == Heading.E || Heading == Heading.W)
-                {
-                    MoveOnXAxis(change);
-                }
-                else if (Heading == Heading.N || Heading == Heading.S)
-                {
-                    MoveOnYAxis(change);
-                }
+                return;
             }
-            else if (char.ToUpper(direction).Equals('B'))
+
+            var change = Heading == Heading.N || Heading == Heading.E ? 1 : -1;
+
+            if (char.ToUpper(direction).Equals('B'))
             {
-                var change = Heading == Heading.N || Heading == Heading.E ? -1 : 1;
-
-                if (Heading == Heading.E || Heading == Heading.W)
-                {
-                    MoveOnXAxis(change);
-                }
-                else if (Heading == Heading.N || Heading == Heading.S)
-                {
-                    MoveOnYAxis(change);
-                }
+                change = change * -1;
             }
+
+            if (Heading == Heading.E || Heading == Heading.W)
+            {
+                MoveOnXAxis(change);
+            }
+            else if (Heading == Heading.N || Heading == Heading.S)
+            {
+                MoveOnYAxis(change);
+            }
+
         }
 
         public void Rotate(char direction)
@@ -98,13 +93,13 @@ namespace PlutoRover.Services
         {
             var tempNewPos = PosY + change;
 
-            if(tempNewPos < 0)
+            if (tempNewPos < 0)
             {
                 PosY = _maxY;
                 return;
             }
 
-            if(tempNewPos > _maxY)
+            if (tempNewPos > _maxY)
             {
                 PosY = 0;
                 return;
