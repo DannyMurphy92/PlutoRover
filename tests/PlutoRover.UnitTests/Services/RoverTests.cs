@@ -2,14 +2,22 @@
 using Xunit;
 using PlutoRover.Services;
 using PlutoRover.Services.Interfaces;
+using NSubstitute;
 
 namespace PlutoRover.UnitTests.Services
 {
     public class RoverTests
     {
+        private readonly IObstacleService _obstacleSvc;
+        public RoverTests()
+        {
+            _obstacleSvc = Substitute.For<IObstacleService>();
+            _obstacleSvc.CanMoveToPosition(default, default).ReturnsForAnyArgs(true);
+
+        }
         private IRover CreateSut(int currX = 10, int currY = 20, Heading heading = Heading.N)
         {
-            return new Rover(currX, currY, heading, 100, 200);
+            return new Rover(currX, currY, heading, 100, 200, _obstacleSvc);
         }
 
         [Fact]
@@ -18,7 +26,7 @@ namespace PlutoRover.UnitTests.Services
             var sut = CreateSut(23, 12, Heading.N);
 
             Assert.Equal("23,12,N", sut.Position);
-        }      
+        }
 
         [Theory]
         [InlineData('f')]
@@ -162,6 +170,38 @@ namespace PlutoRover.UnitTests.Services
             sut.Move('f');
 
             Assert.Equal("0,0,E", sut.Position);
+        }
+
+        [Theory]
+        [InlineData(Heading.N)]
+        [InlineData(Heading.E)]
+        [InlineData(Heading.S)]
+        [InlineData(Heading.W)]
+        public void WhenTryMoveForwardsToPositionWithObstacle_DoNotMove(Heading heading)
+        {
+            _obstacleSvc.CanMoveToPosition(default, default).ReturnsForAnyArgs(false);
+
+            var sut = CreateSut(heading: heading);
+
+            sut.Move('f');
+
+            Assert.Equal($"10,20,{heading}", sut.Position);
+        }
+
+        [Theory]
+        [InlineData(Heading.N)]
+        [InlineData(Heading.E)]
+        [InlineData(Heading.S)]
+        [InlineData(Heading.W)]
+        public void WhenTryMoveBackwardsToPositionWithObstacle_DoNotMove(Heading heading)
+        {
+            _obstacleSvc.CanMoveToPosition(default, default).ReturnsForAnyArgs(false);
+
+            var sut = CreateSut(heading: heading);
+
+            sut.Move('b');
+
+            Assert.Equal($"10,20,{heading}", sut.Position);
         }
     }
 }

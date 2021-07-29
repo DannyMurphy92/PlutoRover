@@ -13,13 +13,16 @@ namespace PlutoRover.Services
 
         private readonly int _maxX;
 
-        public Rover(int currPosX, int currPosY, Heading heading, int maxX, int maxY)
+        private readonly IObstacleService _obstacleService;
+
+        public Rover(int currPosX, int currPosY, Heading heading, int maxX, int maxY, IObstacleService obstacleService)
         {
             PosX = currPosX;
             PosY = currPosY;
             Heading = heading;
             _maxX = maxX;
             _maxY = maxY;
+            _obstacleService = obstacleService;
         }
 
         public string Position => $"{PosX},{PosY},{Heading}";
@@ -93,6 +96,11 @@ namespace PlutoRover.Services
         {
             var tempNewPos = PosY + change;
 
+            if(!_obstacleService.CanMoveToPosition(PosX, tempNewPos))
+            {
+                return;
+            }
+
             if (tempNewPos < 0)
             {
                 PosY = _maxY;
@@ -111,6 +119,11 @@ namespace PlutoRover.Services
         private void MoveOnXAxis(int change)
         {
             var tempNewPos = PosX + change;
+
+            if (!_obstacleService.CanMoveToPosition(tempNewPos, PosY))
+            {
+                return;
+            }
 
             if (tempNewPos < 0)
             {
