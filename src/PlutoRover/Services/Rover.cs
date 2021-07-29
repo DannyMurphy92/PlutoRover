@@ -1,4 +1,5 @@
-﻿using PlutoRover.Services.Interfaces;
+﻿using PlutoRover.Enums;
+using PlutoRover.Services.Interfaces;
 
 namespace PlutoRover.Services
 {
@@ -6,9 +7,9 @@ namespace PlutoRover.Services
     {
         private int PosX { get; set; }
         private int PosY { get; set; }
-        private char Heading { get; set; }
+        private Heading Heading { get; set; }
 
-        public Rover(int posX, int posY, char heading)
+        public Rover(int posX, int posY, Heading heading)
         {
             PosX = posX;
             PosY = posY;
@@ -26,6 +27,46 @@ namespace PlutoRover.Services
             else if (char.ToUpper(direction).Equals('B'))
             {
                 PosX--;
+            }
+        }
+
+        public void Rotate(char direction)
+        {
+            if (char.ToUpper(direction).Equals('R'))
+            {
+                switch (Heading)
+                {
+                    case Heading.N:
+                        Heading = Heading.E;
+                        break;
+                    case Heading.E:
+                        Heading = Heading.S;
+                        break;
+                    case Heading.S:
+                        Heading = Heading.W;
+                        break;
+                    case Heading.W:
+                        Heading = Heading.N;
+                        break;
+                }
+            }
+            else if (char.ToUpper(direction).Equals('L'))
+            {
+                switch (Heading)
+                {
+                    case Heading.N:
+                        Heading = Heading.W;
+                        break;
+                    case Heading.E:
+                        Heading = Heading.N;
+                        break;
+                    case Heading.S:
+                        Heading = Heading.E;
+                        break;
+                    case Heading.W:
+                        Heading = Heading.S;
+                        break;
+                }
             }
         }
     }

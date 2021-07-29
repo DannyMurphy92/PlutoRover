@@ -5,5 +5,7 @@
         string Position { get; }
 
         void Move(char direction);
+
+        void Rotate(char direction);
     }
 }
