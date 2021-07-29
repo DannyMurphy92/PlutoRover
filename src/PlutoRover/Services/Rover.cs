@@ -9,11 +9,17 @@ namespace PlutoRover.Services
         private int PosY { get; set; }
         private Heading Heading { get; set; }
 
-        public Rover(int posX, int posY, Heading heading)
+        private readonly int _maxY;
+
+        private readonly int _maxX;
+
+        public Rover(int currPosX, int currPosY, Heading heading, int maxX, int maxY)
         {
-            PosX = posX;
-            PosY = posY;
+            PosX = currPosX;
+            PosY = currPosY;
             Heading = heading;
+            _maxX = maxX;
+            _maxY = maxY;
         }
 
         public string Position => $"{PosX},{PosY},{Heading}";
@@ -26,11 +32,11 @@ namespace PlutoRover.Services
 
                 if (Heading == Heading.E || Heading == Heading.W)
                 {
-                    PosX += change;
+                    MoveOnXAxis(change);
                 }
                 else if (Heading == Heading.N || Heading == Heading.S)
                 {
-                    PosY += change;
+                    MoveOnYAxis(change);
                 }
             }
             else if (char.ToUpper(direction).Equals('B'))
@@ -39,11 +45,11 @@ namespace PlutoRover.Services
 
                 if (Heading == Heading.E || Heading == Heading.W)
                 {
-                    PosX += change;
+                    MoveOnXAxis(change);
                 }
                 else if (Heading == Heading.N || Heading == Heading.S)
                 {
-                    PosY += change;
+                    MoveOnYAxis(change);
                 }
             }
         }
@@ -86,6 +92,44 @@ namespace PlutoRover.Services
                         break;
                 }
             }
+        }
+
+        private void MoveOnYAxis(int change)
+        {
+            var tempNewPos = PosY + change;
+
+            if(tempNewPos < 0)
+            {
+                PosY = _maxY;
+                return;
+            }
+
+            if(tempNewPos > _maxY)
+            {
+                PosY = 0;
+                return;
+            }
+
+            PosY = tempNewPos;
+        }
+
+        private void MoveOnXAxis(int change)
+        {
+            var tempNewPos = PosX + change;
+
+            if (tempNewPos < 0)
+            {
+                PosX = _maxY;
+                return;
+            }
+
+            if (tempNewPos > _maxY)
+            {
+                PosX = 0;
+                return;
+            }
+
+            PosX = tempNewPos;
         }
     }
 }
