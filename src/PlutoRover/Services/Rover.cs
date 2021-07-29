@@ -22,11 +22,29 @@ namespace PlutoRover.Services
         {
             if (char.ToUpper(direction).Equals('F'))
             {
-                PosX++;
+                var change = Heading == Heading.N || Heading == Heading.E ? 1 : -1;
+
+                if (Heading == Heading.E || Heading == Heading.W)
+                {
+                    PosY += change;
+                }
+                else if (Heading == Heading.N || Heading == Heading.S)
+                {
+                    PosX += change;
+                }
             }
             else if (char.ToUpper(direction).Equals('B'))
             {
-                PosX--;
+                var change = Heading == Heading.N || Heading == Heading.E ? -1 : 1;
+
+                if (Heading == Heading.E || Heading == Heading.W)
+                {
+                    PosY += change;
+                }
+                else if (Heading == Heading.N || Heading == Heading.S)
+                {
+                    PosX += change;
+                }
             }
         }
 

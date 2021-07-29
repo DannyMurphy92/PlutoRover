@@ -88,5 +88,34 @@ namespace PlutoRover.UnitTests.Services
 
             Assert.Equal("10,10,N", sut.Position);
         }
+
+        [Theory]
+        [InlineData(Heading.N, "11,10,N")]
+        [InlineData(Heading.E, "10,11,E")]
+        [InlineData(Heading.S, "9,10,S")]
+        [InlineData(Heading.W, "10,9,W")]
+        public void WhenMoveForwardFacingDirection_MovesToCorrectPosition(Heading heading, string expectedPosition)
+        {
+            var sut = new Rover(10, 10, heading);
+
+            sut.Move('f');
+
+            Assert.Equal(expectedPosition, sut.Position);
+        }
+
+
+        [Theory]
+        [InlineData(Heading.N, "9,10,N")]
+        [InlineData(Heading.E, "10,9,E")]
+        [InlineData(Heading.S, "11,10,S")]
+        [InlineData(Heading.W, "10,11,W")]
+        public void WhenMoveBackwardFacingDirection_MovesToCorrectPosition(Heading heading, string expectedPosition)
+        {
+            var sut = new Rover(10, 10, heading);
+
+            sut.Move('b');
+
+            Assert.Equal(expectedPosition, sut.Position);
+        }
     }
 }
