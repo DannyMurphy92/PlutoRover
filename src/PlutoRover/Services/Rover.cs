@@ -114,11 +114,11 @@ namespace PlutoRover.Services
 
             if (tempNewPos < 0)
             {
-                PosX = _maxY;
+                PosX = _maxX;
                 return;
             }
 
-            if (tempNewPos > _maxY)
+            if (tempNewPos > _maxX)
             {
                 PosX = 0;
                 return;

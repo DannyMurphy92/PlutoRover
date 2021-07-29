@@ -7,9 +7,9 @@ namespace PlutoRover.UnitTests.Services
 {
     public class RoverTests
     {
-        private IRover CreateSut(int currX = 10, int currY = 10, Heading heading = Heading.N)
+        private IRover CreateSut(int currX = 10, int currY = 20, Heading heading = Heading.N)
         {
-            return new Rover(currX, currY, heading, 100, 100);
+            return new Rover(currX, currY, heading, 100, 200);
         }
 
         [Fact]
@@ -41,7 +41,7 @@ namespace PlutoRover.UnitTests.Services
 
             sut.Move(direction);
 
-            Assert.Equal("10,9,N", sut.Position);
+            Assert.Equal("10,19,N", sut.Position);
         }
 
         [Fact]
@@ -51,7 +51,7 @@ namespace PlutoRover.UnitTests.Services
 
             sut.Move('x');
 
-            Assert.Equal("10,10,N", sut.Position);
+            Assert.Equal("10,20,N", sut.Position);
         }
 
         [Theory]
@@ -65,7 +65,7 @@ namespace PlutoRover.UnitTests.Services
 
             sut.Rotate('R');
 
-            Assert.Equal($"10,10,{finalHeading}", sut.Position);
+            Assert.Equal($"10,20,{finalHeading}", sut.Position);
         }
 
 
@@ -80,7 +80,7 @@ namespace PlutoRover.UnitTests.Services
 
             sut.Rotate('L');
 
-            Assert.Equal($"10,10,{finalHeading}", sut.Position);
+            Assert.Equal($"10,20,{finalHeading}", sut.Position);
         }
 
         [Fact]
@@ -90,14 +90,14 @@ namespace PlutoRover.UnitTests.Services
 
             sut.Rotate('x');
 
-            Assert.Equal("10,10,N", sut.Position);
+            Assert.Equal("10,20,N", sut.Position);
         }
 
         [Theory]
-        [InlineData(Heading.N, "10,11,N")]
-        [InlineData(Heading.E, "11,10,E")]
-        [InlineData(Heading.S, "10,9,S")]
-        [InlineData(Heading.W, "9,10,W")]
+        [InlineData(Heading.N, "10,21,N")]
+        [InlineData(Heading.E, "11,20,E")]
+        [InlineData(Heading.S, "10,19,S")]
+        [InlineData(Heading.W, "9,20,W")]
         public void WhenMoveForwardFacingDirection_MovesToCorrectPosition(Heading heading, string expectedPosition)
         {
             var sut = CreateSut(heading: heading);
@@ -109,10 +109,10 @@ namespace PlutoRover.UnitTests.Services
 
 
         [Theory]
-        [InlineData(Heading.N, "10,9,N")]
-        [InlineData(Heading.E, "9,10,E")]
-        [InlineData(Heading.S, "10,11,S")]
-        [InlineData(Heading.W, "11,10,W")]
+        [InlineData(Heading.N, "10,19,N")]
+        [InlineData(Heading.E, "9,20,E")]
+        [InlineData(Heading.S, "10,21,S")]
+        [InlineData(Heading.W, "11,20,W")]
         public void WhenMoveBackwardFacingDirection_MovesToCorrectPosition(Heading heading, string expectedPosition)
         {
             var sut = CreateSut(heading: heading);
@@ -129,14 +129,14 @@ namespace PlutoRover.UnitTests.Services
 
             sut.Move('b');
 
-            Assert.Equal("0,100,N", sut.Position);
+            Assert.Equal("0,200,N", sut.Position);
         }
 
 
         [Fact]
         public void WhenAtMaxPositionOYAxisFacingNorth_WhenGoForwards_NowAt0YPosition()
         {
-            var sut = CreateSut(0, 100);
+            var sut = CreateSut(0, 200);
 
             sut.Move('f');
 
