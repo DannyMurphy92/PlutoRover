@@ -7,5 +7,7 @@
         void Move(char direction);
 
         void Rotate(char direction);
+
+        void Command(string command);
     }
 }

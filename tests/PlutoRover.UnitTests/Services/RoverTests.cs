@@ -203,5 +203,18 @@ namespace PlutoRover.UnitTests.Services
 
             Assert.Equal($"10,20,{heading}", sut.Position);
         }
+
+        [Fact]
+        public void WhenPassChainOfCommandsToRover_ItMovesRoverAccordingly()
+        {
+            var command = "FFLFxFRBRR";
+            var expectedPosition = "99,1,S";
+
+            var sut = CreateSut(0, 0);
+
+            sut.Command(command);
+
+            Assert.Equal(expectedPosition, sut.Position);
+        }
     }
 }

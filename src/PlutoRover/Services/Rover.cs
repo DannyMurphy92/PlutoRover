@@ -92,6 +92,16 @@ namespace PlutoRover.Services
             }
         }
 
+        public void Command(string command)
+        {
+            foreach(char c in command)
+            {
+                // very cheeky I know...
+                Move(c);
+                Rotate(c);
+            }
+        }
+
         private void MoveOnYAxis(int change)
         {
             var tempNewPos = PosY + change;
